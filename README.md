@@ -5,3 +5,5 @@
 - Cardioid
 - Mandelbrot
 - Flappy Doom
+- Sprite Stacking Pygame
+- Ray Marching
