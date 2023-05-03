@@ -7,3 +7,6 @@
 - Flappy Doom
 - Sprite Stacking Pygame
 - Ray Marching
+- Langton's Ant
+- Doom Fire Algorithm
+- Mode 7
