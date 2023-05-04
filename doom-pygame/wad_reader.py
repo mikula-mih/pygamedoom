@@ -9,6 +9,65 @@ class WADReader:
         self.header = self.read_header()
         self.directory = self.read_directory()
 
+    def read_thing(self, offset):
+        # 10 bytes = 2h + 2h + 2H x 3
+        read_2_bytes = self.read_2_bytes
+
+        thing = Thing()
+        x = read_2_bytes(offset, byte_format='h')
+        y = read_2_bytes(offset + 2, byte_format='h')
+        thing.angle = read_2_bytes(offset + 4, byte_format='H')
+        thing.type = read_2_bytes(offset + 6, byte_format='H')
+        thing.flags = read_2_bytes(offset + 8, byte_format='H')
+        thing.pos = vec2(x, y)
+        return thing
+
+    def read_segment(self, offset):
+        # 12 bytes = 2h x 6
+        read_2_bytes = self.read_2_bytes
+
+        seg = Seg()
+        seg.start_vertex_id = read_2_bytes(offset, byte_format='h')
+        seg.end_vertex_id = read_2_bytes(offset + 2, byte_format='h')
+        seg.angle = read_2_bytes(offset + 4, byte_format='h')
+        seg.linedef_id = read_2_bytes(offset + 6, byte_format='h')
+        seg.direction = read_2_bytes(offset + 8, byte_format='h')
+        seg.offset = read_2_bytes(offset + 10, byte_format='h')
+        return seg
+
+    def read_sub_sector(self, offset):
+        # 4 bytes = 2h + 2h
+        read_2_bytes = self.read_2_bytes
+
+        sub_sector = SubSector()
+        sub_sector.seg_count = read_2_bytes(offset, byte_format='h')
+        sub_sector.first_seg_id = read_2_bytes(offset + 2, byte_format='h')
+        return sub_sector
+
+    def read_node(self, offset):
+        # 28 bytes = 2h x 12 + 2H x 2
+        read_2_bytes = self.read_2_bytes
+
+        node = Node()
+        node.x_partition = read_2_bytes(offset, byte_format='h')
+        node.y_partition = read_2_bytes(offset + 2, byte_format='h')
+        node.dx_partition = read_2_bytes(offset + 4, byte_format='h')
+        node.dy_partition = read_2_bytes(offset + 6, byte_format='h')
+
+        node.bbox['front'].top = read_2_bytes(offset + 8, byte_format='h')
+        node.bbox['front'].bottom = read_2_bytes(offset + 10, byte_format='h')
+        node.bbox['front'].left = read_2_bytes(offset + 12, byte_format='h')
+        node.bbox['front'].right = read_2_bytes(offset + 14, byte_format='h')
+
+        node.bbox['back'].top = read_2_bytes(offset + 16, byte_format='h')
+        node.bbox['back'].bottom = read_2_bytes(offset + 18, byte_format='h')
+        node.bbox['back'].left = read_2_bytes(offset + 20, byte_format='h')
+        node.bbox['back'].right = read_2_bytes(offset + 22, byte_format='h')
+
+        node.front_child_id = read_2_bytes(offset + 24, byte_format='H')
+        node.back_child_id = read_2_bytes(offset + 26, byte_format='H')
+        return node
+
     def read_linedef(self, offset):
         # 14 bytes = 2H x 7
         read_2_bytes = self.read_2_bytes
