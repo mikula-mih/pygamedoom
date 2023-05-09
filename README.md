@@ -11,3 +11,4 @@
 - Doom Fire Algorithm
 - Mode 7
 - Arkanoid Breakout
+- ASCII-pixel-art
