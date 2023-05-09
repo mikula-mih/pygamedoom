@@ -10,3 +10,4 @@
 - Langton's Ant
 - Doom Fire Algorithm
 - Mode 7
+- Arkanoid Breakout
