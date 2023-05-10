@@ -13,3 +13,4 @@
 - Arkanoid Breakout
 - ASCII-pixel-art
 - FurMark OpenGL
+- Maze
