@@ -12,3 +12,4 @@
 - Mode 7
 - Arkanoid Breakout
 - ASCII-pixel-art
+- FurMark OpenGL
