@@ -1,0 +1,15 @@
+{
+  "created_at": "2022-10-12T21:46:29.893387",
+  "version": "0.1",
+  "mtllibs": [
+    "CubeRig.mtl"
+  ],
+  "vertex_buffers": [
+    {
+      "material": "Material",
+      "vertex_format": "T2F_N3F_V3F",
+      "byte_offset": 0,
+      "byte_length": 165504
+    }
+  ]
+}
