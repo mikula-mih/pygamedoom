@@ -10,9 +10,14 @@ class Player:
         self.pos = self.thing.pos
         self.angle = self.thing.angle
         self.DIAG_MOVE_CORR = 1 / math.sqrt(2)
+        self.height = PLAYER_HEIGHT
 
     def update(self):
+        self.get_height()
         self.control()
+
+    def get_height(self):
+        self.height = self.engine.bsp.get_sub_sector_height() + PLAYER_HEIGHT
 
     def control(self):
         speed = PLAYER_SPEED * self.engine.dt

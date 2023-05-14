@@ -11,6 +11,34 @@ class Thing:
     ]
 
 
+# ------------------------------------------ #
+class Sector:
+    # 26 bytes = 2h + 2h + 8c + 8c + 2H x 3
+    __slots__ = [
+        'floor_height',
+        'ceil_height',
+        'floor_texture',
+        'ceil_texture',
+        'light_level',
+        'type',
+        'tag'
+    ]
+
+
+class Sidedef:
+    # 30 bytes = 2h + 2h + 8c + 8c + 8c + 2H
+    __slots__ = [
+        'x_offset',
+        'y_offset',
+        'upper_texture',
+        'lower_texture',
+        'middle_texture',
+        'sector_id',
+    ]
+    __slots__ += ['sector']
+# ------------------------------------------ #
+
+
 class Seg:
     # 12 bytes = 2h x 6
     __slots__ = [
@@ -21,7 +49,25 @@ class Seg:
         'direction',
         'offset',
     ]
-    __slots__ += ['start_vertex', 'end_vertex', 'linedef']
+    # --------------------------------------------------------------------------------- #
+    __slots__ += ['start_vertex', 'end_vertex', 'linedef', 'front_sector', 'back_sector']
+    # --------------------------------------------------------------------------------- #
+
+
+class Linedef:
+    # 14 bytes = 2H x 7
+    __slots__ = [
+        'start_vertex_id',
+        'end_vertex_id',
+        'flags',
+        'line_type',
+        'sector_tag',
+        'front_sidedef_id',
+        'back_sidedef_id'
+    ]
+    # ---------------------------------------------- #
+    __slots__ += ['front_sidedef', 'back_sidedef']
+    # ---------------------------------------------- #
 
 
 class SubSector:
@@ -49,16 +95,3 @@ class Node:
     ]
     def __init__(self):
         self.bbox = {'front': self.BBox(), 'back': self.BBox()}
-
-
-class Lindedef:
-    # 14 bytes = 2H x 7
-    __slots__ = [
-        'start_vertex_id',
-        'end_vertex_id',
-        'flags',
-        'line_type',
-        'sector_tag',
-        'front_sidedef_id',
-        'back_sidedef_id'
-    ]
