@@ -22,3 +22,4 @@
 - Prime Numbers Python
 - Planet Sine
 - 3D Graphic Engine in OpenGL
+- Tetris
