@@ -1,4 +1,5 @@
 from wad_reader import WADReader
+from asset_data import AssetData
 
 
 class WADData:
@@ -6,12 +7,10 @@ class WADData:
         'THINGS': 1, 'LINEDEFS': 2, 'SIDEDEFS': 3, 'VERTEXES': 4, 'SEGS': 5,
         'SSECTORS': 6, 'NODES': 7, 'SECTORS': 8, 'REJECT': 9, 'BLOCKMAP': 10
     }
-    # -------------------------------------------------------------------------------------- #
     LINEDEF_FLAGS = {
         'BLOCKING': 1, 'BLOCK_MONSTERS': 2, 'TWO_SIDED': 4, 'DONT_PEG_TOP': 8,
         'DONT_PEG_BOTTOM': 16, 'SECRET': 32, 'SOUND_BLOCK': 64, 'DONT_DRAW': 128, 'MAPPED': 256
     }
-    # -------------------------------------------------------------------------------------- #
 
     def __init__(self, engine, map_name):
         self.reader = WADReader(engine.wad_path)
@@ -46,7 +45,6 @@ class WADData:
             lump_index=self.map_index + self.LUMP_INDICES['THINGS'],
             num_bytes=10
         )
-        # ----------------------------------------------------------- #
         self.sidedefs = self.get_lump_data(
             reader_func=self.reader.read_sidedef,
             lump_index=self.map_index + self.LUMP_INDICES['SIDEDEFS'],
@@ -57,9 +55,11 @@ class WADData:
             lump_index=self.map_index + self.LUMP_INDICES['SECTORS'],
             num_bytes=26
         )
-        # ----------------------------------------------------------- #
 
         self.update_data()
+        # ------------------------------- #
+        self.asset_data = AssetData(self)
+        # ------------------------------- #
         self.reader.close()
 
     def update_data(self):
@@ -67,7 +67,6 @@ class WADData:
         self.update_sidedefs()
         self.update_segs()
 
-    # ----------------------------------------------------------- #
     def update_sidedefs(self):
         for sidedef in self.sidedefs:
             sidedef.sector = self.sectors[sidedef.sector_id]
@@ -80,14 +79,13 @@ class WADData:
                 linedef.back_sidedef = None
             else:
                 linedef.back_sidedef = self.sidedefs[linedef.back_sidedef_id]
-    # ----------------------------------------------------------- #
 
     def update_segs(self):
         for seg in self.segments:
             seg.start_vertex = self.vertexes[seg.start_vertex_id]
             seg.end_vertex = self.vertexes[seg.end_vertex_id]
             seg.linedef = self.linedefs[seg.linedef_id]
-            # ----------------------------------------------------- #
+            #
             if seg.direction:
                 front_sidedef = seg.linedef.back_sidedef
                 back_sidedef = seg.linedef.front_sidedef
@@ -100,11 +98,17 @@ class WADData:
                 seg.back_sector = back_sidedef.sector
             else:
                 seg.back_sector = None
-            # ----------------------------------------------------- #
 
             # convert angles from BAMS to degrees
             seg.angle = (seg.angle << 16) * 8.38190317e-8
             seg.angle = seg.angle + 360 if seg.angle < 0 else seg.angle
+
+            # texture special case
+            if seg.front_sector and seg.back_sector:
+                if front_sidedef.upper_texture == '-':
+                    seg.linedef.front_sidedef.upper_texture = back_sidedef.upper_texture
+                if front_sidedef.lower_texture == '-':
+                    seg.linedef.front_sidedef.lower_texture = back_sidedef.lower_texture
 
     @staticmethod
     def print_attrs(obj):
@@ -125,3 +129,4 @@ class WADData:
         for index, lump_info in enumerate(self.reader.directory):
             if lump_name in lump_info.values():
                 return index
+        return False

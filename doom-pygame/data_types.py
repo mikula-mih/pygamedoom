@@ -1,5 +1,51 @@
 # H - uint16, h - int16, I - uint32, i - int32, c - char
 
+class TextureMap:
+    __slots__ = [
+        'name',
+        'flags',
+        'width',
+        'height',
+        'column_dir',  # unused
+        'patch_count',
+        'patch_maps',
+    ]
+
+class PatchMap:
+    __slots__ = [
+        'x_offset',
+        'y_offset',
+        'p_name_index',
+        'step_dir',  # unused
+        'color_map',  # unused
+    ]
+
+class TextureHeader:
+    __slots__ = [
+        'texture_count',
+        'texture_offset',
+        'texture_data_offset',
+    ]
+
+class PatchColumn:
+    __slots__ = [
+        'top_delta',  # B
+        'length',  # B
+        'padding_pre',  # B - unused
+        'data',  # length x B
+        'padding_post'  # B - unused
+    ]
+
+
+class PatchHeader:
+    __slots__ = [
+        'width',  # H
+        'height',  # H
+        'left_offset',  # h
+        'top_offset',  # h
+        'column_offset'  # width x I
+    ]
+
 
 class Thing:
     # 10 bytes
@@ -11,7 +57,6 @@ class Thing:
     ]
 
 
-# ------------------------------------------ #
 class Sector:
     # 26 bytes = 2h + 2h + 8c + 8c + 2H x 3
     __slots__ = [
@@ -36,7 +81,6 @@ class Sidedef:
         'sector_id',
     ]
     __slots__ += ['sector']
-# ------------------------------------------ #
 
 
 class Seg:
@@ -49,9 +93,7 @@ class Seg:
         'direction',
         'offset',
     ]
-    # --------------------------------------------------------------------------------- #
     __slots__ += ['start_vertex', 'end_vertex', 'linedef', 'front_sector', 'back_sector']
-    # --------------------------------------------------------------------------------- #
 
 
 class Linedef:
@@ -65,9 +107,7 @@ class Linedef:
         'front_sidedef_id',
         'back_sidedef_id'
     ]
-    # ---------------------------------------------- #
     __slots__ += ['front_sidedef', 'back_sidedef']
-    # ---------------------------------------------- #
 
 
 class SubSector:

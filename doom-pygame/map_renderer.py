@@ -1,4 +1,5 @@
 import pygame as pg
+import pygame.gfxdraw as gfx
 from settings import *
 import random
 
@@ -6,6 +7,7 @@ import random
 class MapRenderer:
     def __init__(self, engine):
         self.engine = engine
+        self.screen = engine.screen
         self.wad_data = engine.wad_data
         self.vertexes = self.wad_data.vertexes
         self.linedefs = self.wad_data.linedefs
@@ -16,8 +18,6 @@ class MapRenderer:
 
     def draw(self):
         pass
-        self.draw_linedefs()
-        self.draw_player_pos()
 
     def draw_vlines(self, x1, x2, sub_sector_id):
         color = self.get_color(sub_sector_id)
