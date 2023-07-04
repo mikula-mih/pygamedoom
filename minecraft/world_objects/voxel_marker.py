@@ -29,19 +29,3 @@ class VoxelMarker:
         if self.handler.voxel_id:
             self.set_uniform()
             self.mesh.render()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
