@@ -10,6 +10,9 @@ class World:
         self.build_chunks()
         self.build_chunk_mesh()
 
+    def update(self):
+        pass
+
     def build_chunks(self):
         for x in range(WORLD_W):
             for y in range(WORLD_H):
@@ -28,9 +31,6 @@ class World:
     def build_chunk_mesh(self):
         for chunk in self.chunks:
             chunk.build_mesh()
-
-    def update(self):
-        pass
 
     def render(self):
         for chunk in self.chunks:

@@ -11,6 +11,7 @@ CHUNK_SIZE = 32
 H_CHUNK_SIZE = CHUNK_SIZE // 2
 CHUNK_AREA = CHUNK_SIZE * CHUNK_SIZE
 CHUNK_VOL = CHUNK_AREA * CHUNK_SIZE
+CHUNK_SPHERE_RADIUS = H_CHUNK_SIZE * math.sqrt(3)
 
 # world
 WORLD_W, WORLD_H = 10, 3
@@ -39,3 +40,17 @@ MOUSE_SENSITIVITY = 0.002
 
 # colors
 BG_COLOR = glm.vec3(0.1, 0.16, 0.25)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

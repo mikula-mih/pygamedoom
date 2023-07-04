@@ -1,5 +1,6 @@
 from settings import *
 from meshes.chunk_mesh import ChunkMesh
+import random
 
 
 class Chunk:
@@ -33,6 +34,7 @@ class Chunk:
 
         # fill chunk
         cx, cy, cz = glm.ivec3(self.position) * CHUNK_SIZE
+        rng = random.randrange(1, 100)
 
         for x in range(CHUNK_SIZE):
             wx = x + cx
@@ -43,7 +45,7 @@ class Chunk:
 
                 for y in range(local_height):
                     wy = y + cy
-                    voxels[x + CHUNK_SIZE * z + CHUNK_AREA * y] = wy + 1
+                    voxels[x + CHUNK_SIZE * z + CHUNK_AREA * y] = rng
 
         if np.any(voxels):
             self.is_empty = False
